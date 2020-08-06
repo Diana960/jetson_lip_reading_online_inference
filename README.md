@@ -1,4 +1,4 @@
-# Online Inference
+# Lip Reading Online Inference Pipline for the Jetson TX2 
 
 This folder contains all of the code required to run Lip Reading in an online scenario on the Jetson TX2. This component captures the online inference portion of the Jetson Lip Reading project for UCB MIDS W251 Section 3 course, authored by Diana Iftimie, Tom Goter, & Noah Pflaum. This work is inspired by the work done for the Lip2Wav project that this project focuses on exploring and expanding (see the original Lip2Wav code at [https://github.com/Rudrabha/Lip2Wav](https://github.com/Rudrabha/Lip2Wav))
 
