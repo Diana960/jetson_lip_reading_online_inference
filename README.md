@@ -9,7 +9,7 @@ This lip reading pipeline is a dockerized pipeline that comes in three key parts
  * Audio Playback (which enables playing synthesized audio on the Jetson)
 
 The three components are outlined in the diagram below:
-[PipelineDiagram](./PipelineDiagram.png)
+![PipelineDiagram](./PipelineDiagram.png)
 
 Each remaining section of this README will go into the detailed information for each container.
 
