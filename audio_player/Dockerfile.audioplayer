@@ -1,0 +1,23 @@
+FROM ubuntu
+
+RUN apt update
+RUN apt install -y alsa-base alsa-utils pulseaudio
+RUN apt install -y python3 python3-pip 
+
+RUN apt-get update
+RUN apt-get install -y python3-pyaudio
+RUN apt-get install -y python3-scipy
+RUN pip3 install scipy paho-mqtt numpy
+
+RUN mkdir audio_player
+RUN cd /audio_player
+WORKDIR /audio_player
+ADD ./ /audio_player/
+
+ENV QOS 2
+ENV SUB_HOST "10.0.0.47"
+ENV SUB_PORT 1883
+ENV SUB_TOPIC "jetson/audio"
+
+# Run Audio Player Script
+CMD python3 audio_player.py --sub_mqtt_host $SUB_HOST --sub_mqtt_port $SUB_PORT --sub_qos $QOS --sub_topic $SUB_TOPIC

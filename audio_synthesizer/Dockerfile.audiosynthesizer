@@ -1,0 +1,71 @@
+FROM tensorrtlab05
+
+# Install dependencies
+RUN apt update
+RUN pip3 install paho-mqtt
+
+#################################################
+# Install dependencies for the complete_test_generate.py script
+#################################################
+
+RUN apt-get update
+RUN apt install -y software-properties-common  ####
+RUN pip3 install unidecode inflect
+RUN pip3 uninstall -y enum34
+RUN apt-get install -y gfortran libatlas-base-dev
+RUN pip3 install --ignore-installed joblib
+RUN apt-get install -y llvm-7 llvm-7
+ENV LLVM_CONFIG /usr/bin/llvm-config-7
+RUN apt remove -y libtbb-dev
+RUN pip3 install numba==0.49.1
+RUN pip3 install llvmlite==0.32.1
+RUN pip3 install librosa==0.7.0
+
+RUN pip3 install multiprocess
+RUN apt install -y python3-opencv
+RUN pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v43 "tensorflow-gpu<2" #####
+ENV LD_PRELOAD /usr/lib/aarch64-linux-gnu/libgomp.so.1
+
+RUN pip3 install tqdm
+RUN apt install -y ffmpeg
+
+# for profiling (can remove)
+RUN pip3 install profilehooks
+
+# Add Vim
+# RUN apt install -y vim
+
+###############################
+
+# Copy over files
+RUN mkdir /audio_synthesizer
+RUN cd /audio_synthesizer
+WORKDIR /audio_synthesizer
+ADD ./ /audio_synthesizer/
+
+###############################
+
+EXPOSE 1883
+
+# define environment variables for inference & set defaults
+ENV PRESET "synthesizer/presets/chem.json"
+ENV CHECKPOINT "weights/chem/tacotron_model.ckpt-159000"
+ENV WAV_ACTION "forward"
+ENV RESULTS_ROOT "chem-test-results"
+ENV METHOD_OF_SYNTHESIS "gpu"
+
+# define environment variables for mqtt & set defaults
+ENV QOS 2
+ENV HOST "10.0.0.47"
+ENV SUB_HOST $HOST
+ENV SUB_TOPIC "jetson/faces"
+ENV SUB_PORT 1883
+ENV PUB_HOST $HOST
+ENV PUB_TOPIC "jetson/audio"
+ENV PUB_PORT 1883
+
+# Run audio synthesizer script
+CMD python3 audio_synthesizer.py --preset $PRESET --checkpoint $CHECKPOINT \
+	--wav_action $WAV_ACTION --results_root $RESULTS_ROOT --method_of_synthesis $METHOD_OF_SYNTHESIS \
+	--sub_mqtt_host $SUB_HOST --sub_mqtt_port $SUB_PORT --sub_qos $QOS --sub_topic $SUB_TOPIC \
+	--pub_mqtt_host $PUB_HOST --pub_mqtt_port $PUB_PORT --pub_qos $QOS --pub_topic $PUB_TOPIC  

@@ -1,0 +1,26 @@
+FROM tensorrtlab05
+
+# Install dependencies defined in hw 3
+RUN apt update
+RUN apt install -y python3-opencv
+RUN pip3 install paho-mqtt
+
+# Copy over files
+RUN mkdir /face_detector
+RUN cd /face_detector
+WORKDIR /face_detector
+ADD ./ /face_detector/
+
+EXPOSE 1883
+
+# Define environment variables for command line & set defaults
+ENV HOST "10.0.0.47"
+ENV QOS 2
+ENV PUB_HOST $HOST
+ENV PUB_PORT 1883
+ENV PUB_TOPIC "jetson/faces"
+ENV MTCNN_MIN_SIZE 100
+
+# Run face detector script with parameters
+CMD python3 face_detector.py --pub_mqtt_host $PUB_HOST --pub_mqtt_port $PUB_PORT --pub_qos $QOS --pub_topic $PUB_TOPIC \
+	--mtcnn_min_size $MTCNN_MIN_SIZE
