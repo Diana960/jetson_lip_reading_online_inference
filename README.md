@@ -1,6 +1,6 @@
 # Lip Reading Online Inference Pipline for the Jetson TX2 
 
-This repo contains all of the code required to run the Lip Reading task in an online scenario on the Jetson TX2, which implements the online inference portion of the Jetson Lip Reading final project for UCB MIDS W251 Section 3 course, authored by Diana Iftimie, Tom Goter, & Noah Pflaum. This work is inspired by the work done for the Lip2Wav project that this project focuses on exploring and expanding (see the original Lip2Wav code at [https://github.com/Rudrabha/Lip2Wav](https://github.com/Rudrabha/Lip2Wav))
+This repo contains all of the code required to run the Lip Reading task in an online scenario on the Jetson TX2, which implements the online inference portion of the Jetson Lip Reading final project for UCB MIDS W251 Summer 2020 Section 3 course, authored by Diana Iftimie, Tom Goter, & Noah Pflaum. This work is inspired by the work done for the Lip2Wav project that this project focuses on exploring and expanding (see the original Lip2Wav code at [https://github.com/Rudrabha/Lip2Wav](https://github.com/Rudrabha/Lip2Wav))
 
 This lip reading pipeline is a dockerized pipeline that comes in three key parts that are all connected via MQTT:
 
