@@ -13,6 +13,7 @@ RUN mkdir audio_player
 RUN cd /audio_player
 WORKDIR /audio_player
 ADD ./ /audio_player/
+RUN mkdir tmp
 
 ENV QOS 2
 ENV SUB_HOST "10.0.0.47"
